@@ -38,6 +38,9 @@ function drawTable(){
         var date = new Date(Date.UTC(date_utc.getFullYear(), date_utc.getMonth(), date_utc.getDate(),
                                     date_utc.getHours(), date_utc.getMinutes(), date_utc.getSeconds()));
         var now = new Date()
+        if(now >= date){
+            continue
+        }
         var options = { weekday: 'short', day: '2-digit' , hour: "2-digit", minute: "2-digit", hour12:false};
         timestr = date.toLocaleString(navigator.languages, options).toUpperCase()
 
