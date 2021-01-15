@@ -5,11 +5,26 @@ from psycopg2.extras import RealDictCursor
 import os
 from datetime import datetime
 import json
-
+import urllib.parse as urlparse
 from flask.json import jsonify
 
+
 def get_db_connection():
-    conn = psycopg2.connect(dbname='asot1000', user='postgres', password='090797', cursor_factory=RealDictCursor)
+    url = urlparse.urlparse(os.environ['DATABASE_URL'])
+    dbname = url.path[1:]
+    user = url.username
+    password = url.password
+    host = url.hostname
+    port = url.port
+
+    conn = psycopg2.connect(
+                dbname=dbname,
+                user=user,
+                password=password,
+                host=host,
+                port=port,
+                cursor_factory=RealDictCursor
+                )
     return conn
 
 app = Flask(__name__, static_folder='static')

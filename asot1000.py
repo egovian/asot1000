@@ -952,9 +952,27 @@ raw = '''51 GAIA – Status Excessu D
 from datetime import datetime, timedelta
 import sqlite3
 import psycopg2
+import urllib.parse as urlparse
+import os
+from psycopg2.extras import RealDictCursor
 
 
-conn = psycopg2.connect('dbname=asot1000 user=postgres password=090797')
+#url = urlparse.urlparse(os.environ['DATABASE_URL'])
+url = urlparse.urlparse('postgres://xirnujetwrlufe:7732b67f8c6ff3bab76af5bbbcf58fa0a3c75c823daa424650502f0bb7ee12cc@ec2-34-251-118-151.eu-west-1.compute.amazonaws.com:5432/d8tdoe234gt6p7')
+dbname = url.path[1:]
+user = url.username
+password = url.password
+host = url.hostname
+port = url.port
+
+conn = psycopg2.connect(
+            dbname=dbname,
+            user=user,
+            password=password,
+            host=host,
+            port=port,
+            cursor_factory=RealDictCursor
+            )
 c = conn.cursor()
 
 start = datetime(2021, 1, 16, 9, 0)
@@ -962,6 +980,22 @@ finish = datetime(2021, 1, 21, 16, 0)
 
 delta = finish-start
 duration = delta/len(raw.split('\n'))
+
+c.execute('drop table if exists songs')
+
+c.execute('''CREATE TABLE songs
+(
+    id SERIAL,
+    "number" text COLLATE pg_catalog."default",
+    orden integer,
+    artist text COLLATE pg_catalog."default",
+    title text COLLATE pg_catalog."default",
+    "time" text COLLATE pg_catalog."default",
+    CONSTRAINT songs_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+''')
 
 c.execute('delete from songs')
 
