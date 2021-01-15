@@ -989,7 +989,7 @@ for year in range(2004, 2021):
     time = start + delta*orden
     c.execute('insert into songs (number, orden, artist, title, time) values (?,?,?,?,?)', (number, orden, artist, title, time.isoformat()))
 
-c.execute('insert into songs (number, orden, artist, title, time) values (?,?,?,?,?)', ("SET", 1, "Armin van Buuren", "Armin van Buuren live @ ASOT 850 (Jaarbeurs, Utrecht)", datetime(2021, 1, 14, 22, 0).isoformat()))
-c.execute('insert into songs (number, orden, artist, title, time) values (?,?,?,?,?)', ("ASOT", 1, "Armin van Buuren", "A State Of Trance 1000 (50 to 1 countdown)", datetime(2021, 1, 21, 17, 0).isoformat()))
+c.execute('insert into songs (number, orden, artist, title, time) values (?,?,?,?,?)', ("SET", 1, "Armin van Buuren", "Armin van Buuren live @ ASOT 850 (Jaarbeurs, Utrecht)", datetime(2021, 1, 14, 21, 0).isoformat()))
+c.execute('insert into songs (number, orden, artist, title, time) values (?,?,?,?,?)', ("ASOT", 1, "Armin van Buuren", "A State Of Trance 1000 (50 to 1 countdown)", datetime(2021, 1, 21, 16, 0).isoformat()))
 
 conn.commit()

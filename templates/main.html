@@ -40,59 +40,20 @@
   </div>
 
   <div class="center" id="tablelarge">
-    <table class="tablesongs">
-    {% for song in songs %}
-      <tr class="song">
-        <td class="number" style="color: hsl({{song.color}}, 63%, 64%);">{{song.number}}</td>
-        
-        <td class="artist" style="color: hsl({{song.color}}, 63%, 64%);">{{song.artist}}</td>
-        <td class="title">{{song.title}}</td>
-        <td class="time">{{song.time}}</td>
-      </tr>
-    {% endfor %}
+    <table class="tablesongs" id="tablesongslarge">
+   
     
     </table>
   </div>
 
 
   <div class="center centershort hide" id="tableshort">
-    <table class="tablesongs">
-    {% for song in songs %}
-      <tr class="song">
-        <td class="shortright">
-          <span class="number short" style="color: hsl({{song.color}}, 63%, 64%);">{{song.number}}</span>
-          <br>
-          <span class="time short">{{song.time}}</span>
-        </td>
-        
-        <td class="shortleft">
-          <span class="artist short" style="color: hsl({{song.color}}, 63%, 64%);">{{song.artist}}</span>
-          <br>
-          <span class="title short">{{song.title}}</span>
-        </td>
-        
-        
-      </tr>
-    {% endfor %}
+    <table class="tablesongs" id="tablesongsshort">
     
     </table>
   </div>
 </body>
 
-<script>
-  function changeTables(){
-    var tablelarge = document.getElementById('tablelarge')
-    var tableshort = document.getElementById('tableshort')
-    if(window.innerWidth >= 960){
-      tablelarge.classList.remove("hide")
-      tableshort.classList.add("hide")
-    }else{
-      tablelarge.classList.add("hide")
-      tableshort.classList.remove("hide")
-    }
-  }
 
-  window.addEventListener('load', changeTables);
-  window.addEventListener('resize', changeTables);
-</script>
+<script src="static/scripts.js"></script>
 </html>
