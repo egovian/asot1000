@@ -128,7 +128,7 @@ raw = '''51 GAIA – Status Excessu D
 178 Armin van Buuren feat. Fiora – Waiting For The Night
 179 Sebastian Brandt – 450
 180 Armin van Buuren – My Symphony (The Best Of Armin Only Anthem)
-181 ilan Bluestone with Maor Levi feat. EL Wave – Will We Remain?
+181 ilan Bluestone with Maor Levi feat. EL Wave – Will We Remain%s
 182 Armin van Buuren feat. Josh Cumbee – Sunny Days (PureNRG Remix)
 183 FUTURECODE & Roxanne Emery – Dancing In The Rain
 184 The Doppler Effect – Beauty Hides In The Deep (John O’Callaghan Remix)
@@ -183,7 +183,7 @@ raw = '''51 GAIA – Status Excessu D
 233 Sasha – Xpander
 234 Simon Patterson – Miss You
 235 Cosmic Gate – am2pm
-236 Major League – Wonder Where You Are? (Vocal Mix)
+236 Major League – Wonder Where You Are%s (Vocal Mix)
 237 ATB & Dash Berlin – Apollo Road
 238 Max Graham feat. Ana Criado – Nothing Else Matters (Aly & Fila Remix)
 239 Armin van Buuren feat. Kensington – Heading Up High (First State Remix)
@@ -235,7 +235,7 @@ raw = '''51 GAIA – Status Excessu D
 285 NWYR & Andrew Rayel – The Melody
 286 Rank 1 – Breathing (Airwaves) [Breaks Dub]
 287 W&W x Vini Vici – Chakra
-288 Armin van Buuren – Who’s Afraid Of 138?! (Photographer Remix)
+288 Armin van Buuren – Who’s Afraid Of 138%s! (Photographer Remix)
 289 Gabriel & Dresden feat. Molly Bancroft – Tracking Treasure Down
 290 Sean Tyas – Drop
 291 Susana feat. Omnia & The Blizzard – Closer
@@ -250,7 +250,7 @@ raw = '''51 GAIA – Status Excessu D
 300 Daniel Kandi pres. Timmus – Symphonica
 301 M.I.D.O.R. & Six4Eight – No Man’s Land
 302 Assaf & Cassandra Grey – All Of You
-303 Above & Beyond – Is It Love? (1001)
+303 Above & Beyond – Is It Love%s (1001)
 304 Armin van Buuren feat. Jaren – Unforgivable
 305 Armin van Buuren pres. Rising Star feat. Betsie Larkin – Again (Armin van Buuren Remix)
 306 Above & Beyond & Seven Lions feat. Opposite The Other – See The End
@@ -731,7 +731,7 @@ raw = '''51 GAIA – Status Excessu D
 781 The Thrillseekers feat. Fisher – The Last Time (Club Mix)
 782 Solarstone & Robert Nickson – Voyager II
 783 Audien – Wayfarer
-784 Chicane – What Am I Doing Here? (Part 1) [Walsh & McAuley Remix]
+784 Chicane – What Am I Doing Here%s (Part 1) [Walsh & McAuley Remix]
 785 Gareth Emery & Ashley Wallbridge – Amber Sun
 786 Fisherman & Hawkins and Gal Abutbul – United
 787 Kyau & Albert – Velvet Morning (Mirco de Govia Remix)
@@ -951,10 +951,10 @@ raw = '''51 GAIA – Status Excessu D
 
 from datetime import datetime, timedelta
 import sqlite3
+import psycopg2
 
 
-conn = sqlite3.connect('asot1000.db')
-conn.row_factory = sqlite3.Row
+conn = psycopg2.connect('dbname=asot1000 user=postgres password=090797')
 c = conn.cursor()
 
 start = datetime(2021, 1, 16, 9, 0)
@@ -974,7 +974,7 @@ for song in raw.split('\n'):
     orden = 1000-int(number)
     time = start + duration*orden
     songs.append({'number':number, 'artist':artist, 'title':title, 'orden':orden, 'time':time})
-    c.execute('insert into songs (number, orden, artist, title, time) values (?,?,?,?,?)', (number, orden, artist, title, time.isoformat()))
+    c.execute('insert into songs (number, orden, artist, title, time) values (%s,%s,%s,%s,%s)', (number, orden, artist, title, time.isoformat()))
 
 # Yearmixes
 start = datetime(2021, 1, 14, 23, 0)
@@ -987,9 +987,9 @@ for year in range(2004, 2021):
     title = "ASOT Yearmix " + str(year)
     orden = year-2004
     time = start + delta*orden
-    c.execute('insert into songs (number, orden, artist, title, time) values (?,?,?,?,?)', (number, orden, artist, title, time.isoformat()))
+    c.execute('insert into songs (number, orden, artist, title, time) values (%s,%s,%s,%s,%s)', (number, orden, artist, title, time.isoformat()))
 
-c.execute('insert into songs (number, orden, artist, title, time) values (?,?,?,?,?)', ("SET", 1, "Armin van Buuren", "Armin van Buuren live @ ASOT 850 (Jaarbeurs, Utrecht)", datetime(2021, 1, 14, 21, 0).isoformat()))
-c.execute('insert into songs (number, orden, artist, title, time) values (?,?,?,?,?)', ("ASOT", 1, "Armin van Buuren", "A State Of Trance 1000 (50 to 1 countdown)", datetime(2021, 1, 21, 16, 0).isoformat()))
+c.execute('insert into songs (number, orden, artist, title, time) values (%s,%s,%s,%s,%s)', ("SET", 1, "Armin van Buuren", "Armin van Buuren live @ ASOT 850 (Jaarbeurs, Utrecht)", datetime(2021, 1, 14, 21, 0).isoformat()))
+c.execute('insert into songs (number, orden, artist, title, time) values (%s,%s,%s,%s,%s)', ("ASOT", 1, "Armin van Buuren", "A State Of Trance 1000 (50 to 1 countdown)", datetime(2021, 1, 21, 16, 0).isoformat()))
 
 conn.commit()

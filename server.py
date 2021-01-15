@@ -1,16 +1,15 @@
 from flask import Flask, render_template, request
 import sqlite3
+import psycopg2
+from psycopg2.extras import RealDictCursor
 import os
 from datetime import datetime
 import json
 
 from flask.json import jsonify
 
-database = os.path.join(os.getcwd(), 'asot1000.db')
-
 def get_db_connection():
-    conn = sqlite3.connect(database)
-    conn.row_factory = sqlite3.Row
+    conn = psycopg2.connect(dbname='asot1000', user='postgres', password='090797', cursor_factory=RealDictCursor)
     return conn
 
 app = Flask(__name__, static_folder='static')
@@ -21,7 +20,7 @@ def index():
     conn = get_db_connection()
     c = conn.cursor()
 
-    c.execute('select * from songs where time <= ? order by time desc', (nowiso,))
+    c.execute('select * from songs where time <= %s order by time desc', (nowiso,))
     row = c.fetchone()
     song = {}
     song['number'] = row['number']
@@ -43,7 +42,7 @@ def getData():
         nowiso = datetime.now().isoformat()
         conn = get_db_connection()
         c = conn.cursor()
-        c.execute('select * from songs where time >= ? order by time', (nowiso,))
+        c.execute('select * from songs where time >= %s order by time', (nowiso,))
         rows = c.fetchall()
         songs = []
         for row in rows:
