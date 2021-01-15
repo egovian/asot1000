@@ -29,10 +29,18 @@ function askForData(){
 }
 
 
-function drawTable(songs){
+function drawTable(){
     var table = document.getElementById("tablesongslarge")
     var table2 = document.getElementById("tablesongsshort")
+    songs = data
     for(var i = 0; i < songs.length; i++){
+        var date_utc = new Date(songs[i].time)
+        var date = new Date(Date.UTC(date_utc.getFullYear(), date_utc.getMonth(), date_utc.getDate(),
+                                    date_utc.getHours(), date_utc.getMinutes(), date_utc.getSeconds()));
+        var now = new Date()
+        var options = { weekday: 'short', day: '2-digit' , hour: "2-digit", minute: "2-digit", hour12:false};
+        timestr = date.toLocaleString(navigator.languages, options).toUpperCase()
+
         var row = table.insertRow(-1);
         var number = row.insertCell(-1);
         var artist = row.insertCell(-1);
@@ -40,12 +48,7 @@ function drawTable(songs){
         var time = row.insertCell(-1);
         
 
-        var date = new Date(songs[i].time)
-        var date_utc = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(),
-                                date.getHours(), date.getMinutes(), date.getSeconds()));
-
-        var options = { weekday: 'short', day: '2-digit' , hour: "2-digit", minute: "2-digit", hour12:false};
-        timestr = date_utc.toLocaleString(navigator.languages, options).toUpperCase()
+        
 
 
         row.classList.add("song")
@@ -81,4 +84,4 @@ function drawTable(songs){
     }
 }
 
-window.addEventListener('load', askForData);
+window.addEventListener('load', drawTable);
