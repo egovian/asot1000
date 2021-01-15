@@ -52,4 +52,4 @@ def hello_world():
     return render_template('main.html', songs=songs, currentsong=song)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(threaded=True, debug=True, host='0.0.0.0')
