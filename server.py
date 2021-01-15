@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response
 import sqlite3
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -73,7 +73,9 @@ def getData():
             
             song['color'] = color
             songs.append(song)
-        return json.dumps(songs)
+        resp = make_response(json.dumps(songs), 200)
+        resp.headers['Content-Type'] = 'application/json'
+        return resp
         
 
 if __name__ == '__main__':
