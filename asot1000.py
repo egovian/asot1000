@@ -957,8 +957,8 @@ conn = sqlite3.connect('asot1000.db')
 conn.row_factory = sqlite3.Row
 c = conn.cursor()
 
-start = datetime(2021, 1, 16, 10, 0)
-finish = datetime(2021, 1, 21, 17, 0)
+start = datetime(2021, 1, 16, 9, 0)
+finish = datetime(2021, 1, 21, 16, 0)
 
 delta = finish-start
 duration = delta/len(raw.split('\n'))
@@ -977,7 +977,7 @@ for song in raw.split('\n'):
     c.execute('insert into songs (number, orden, artist, title, time) values (?,?,?,?,?)', (number, orden, artist, title, time.isoformat()))
 
 # Yearmixes
-start = datetime(2021, 1, 15, 0, 0)
+start = datetime(2021, 1, 14, 23, 0)
 
 delta = timedelta(hours=2)
 
