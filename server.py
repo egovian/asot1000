@@ -9,31 +9,29 @@ import urllib.parse as urlparse
 from flask.json import jsonify
 
 
-def get_db_connection():
-    url = urlparse.urlparse(os.environ['DATABASE_URL'])
-    dbname = url.path[1:]
-    user = url.username
-    password = url.password
-    host = url.hostname
-    port = url.port
+url = urlparse.urlparse(os.environ['DATABASE_URL'])
+dbname = url.path[1:]
+user = url.username
+password = url.password
+host = url.hostname
+port = url.port
 
-    conn = psycopg2.connect(
-                dbname=dbname,
-                user=user,
-                password=password,
-                host=host,
-                port=port,
-                cursor_factory=RealDictCursor
-                )
-    return conn
+conn = psycopg2.connect(
+            dbname=dbname,
+            user=user,
+            password=password,
+            host=host,
+            port=port,
+            cursor_factory=RealDictCursor
+            )
+
+c = conn.cursor()
 
 app = Flask(__name__, static_folder='static')
 
 @app.route('/')
 def index():
     nowiso = datetime.now().isoformat()
-    conn = get_db_connection()
-    c = conn.cursor()
 
     c.execute('select * from songs where time <= %s order by time desc', (nowiso,))
     row = c.fetchone()
@@ -55,8 +53,6 @@ def index():
 def getData():
     if request.method == "POST":
         nowiso = datetime.now().isoformat()
-        conn = get_db_connection()
-        c = conn.cursor()
         c.execute('select * from songs where time >= %s order by time', (nowiso,))
         rows = c.fetchall()
         songs = []
