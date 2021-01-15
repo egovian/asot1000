@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Title -->
+  <title>ASOT 1000 songs</title>
+
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="static/favicon.ico">
+  <link rel='stylesheet' href="static/style.css">
+</head>
+
+<body>
+  <div class="centercurrent" style="background-color: hsl({{currentsong.color}}, 63%, 64%);">
+    <div>CURRENTLY PLAYING</div>
+    <div class="currentsong">
+      <div class="number current">#{{currentsong.number}}</div>
+      <div class="artist current">{{currentsong.artist}}</div>
+      <div class="title current">{{currentsong.title}}</div>
+    </div>
+    <br>
+    <div style="font-size: 130%;">LISTEN LIVE</div>
+    <div class="current links">
+      <a class="link" href="https://www.youtube.com/watch?v=5lMmnfVylEE">
+        <div class="frame">
+          <img class="imglink" src="static/yt_logo_mono_dark.png">
+        </div>
+      </a>
+      <a class="link" href="https://www.twitch.com/asot">
+        <div class="frame">
+          <img class="imglink" src="static/Twitch-Wordmark-White.png">
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="center" id="tablelarge">
+    <table class="tablesongs">
+    {% for song in songs %}
+      <tr class="song">
+        <td class="number" style="color: hsl({{song.color}}, 63%, 64%);">{{song.number}}</td>
+        
+        <td class="artist" style="color: hsl({{song.color}}, 63%, 64%);">{{song.artist}}</td>
+        <td class="title">{{song.title}}</td>
+        <td class="time">{{song.time}}</td>
+      </tr>
+    {% endfor %}
+    
+    </table>
+  </div>
+
+
+  <div class="center centershort hide" id="tableshort">
+    <table class="tablesongs">
+    {% for song in songs %}
+      <tr class="song">
+        <td class="shortright">
+          <span class="number short" style="color: hsl({{song.color}}, 63%, 64%);">{{song.number}}</span>
+          <br>
+          <span class="time short">{{song.time}}</span>
+        </td>
+        
+        <td class="shortleft">
+          <span class="artist short" style="color: hsl({{song.color}}, 63%, 64%);">{{song.artist}}</span>
+          <br>
+          <span class="title short">{{song.title}}</span>
+        </td>
+        
+        
+      </tr>
+    {% endfor %}
+    
+    </table>
+  </div>
+</body>
+
+<script>
+  function changeTables(){
+    var tablelarge = document.getElementById('tablelarge')
+    var tableshort = document.getElementById('tableshort')
+    if(window.innerWidth >= 960){
+      tablelarge.classList.remove("hide")
+      tableshort.classList.add("hide")
+    }else{
+      tablelarge.classList.add("hide")
+      tableshort.classList.remove("hide")
+    }
+  }
+
+  window.addEventListener('load', changeTables);
+  window.addEventListener('resize', changeTables);
+</script>
+</html>
