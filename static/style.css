@@ -99,12 +99,14 @@ body{
     text-align: right;
     padding-right: 2px;
     min-width: 400px;
+    text-transform: uppercase;
 }
 
 .title {
     font-weight: 300;
     padding-left: 2px;
     min-width: 400px;
+    text-transform: uppercase;
 
 }
 
@@ -125,6 +127,7 @@ body{
     flex-direction: column;
     width: 100%;
     text-align: center;
+    text-transform: uppercase;
 }
 
 .hide{
