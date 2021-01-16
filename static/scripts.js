@@ -1,4 +1,3 @@
-
 function changeTables(){
     var tablelarge = document.getElementById('tablelarge')
     var tableshort = document.getElementById('tableshort')
@@ -28,8 +27,45 @@ function askForData(){
     }));
 }
 
+function isoToDate(iso){
+    var date_utc = new Date(iso)
+    return new Date(Date.UTC(date_utc.getFullYear(), date_utc.getMonth(), date_utc.getDate(),
+                                    date_utc.getHours(), date_utc.getMinutes(), date_utc.getSeconds()));
+        
+}
+
+function updateTime(){
+    var ut = JSON.parse(document.getElementById('updatetime').innerHTML)
+    if(ut.update == "no"){
+        return
+    }
+    songs = data
+    var first_song = songs[18]
+    var last_song = songs[songs.length-1]
+    var date_current = new Date(ut.time)
+    var date_first = new Date(first_song.time)
+    var date_last = new Date(last_song.time)
+    delta1 = (date_current-date_first)/(1000-ut.number)
+    delta2 = (date_last-date_current)/(ut.number-50)
+    for(var i = 0; i < songs.length; i++){
+        var song = songs[i]
+        if(song.number.startsWith('YM') || song.number.startsWith('SET') || song.number.startsWith('ASOT')){
+            continue
+        }
+        var date = new Date(songs[i].time)
+        if(parseInt(song.number) >= parseInt(ut.number)){
+            var date = new Date(date_first.getTime() + delta1*(1000-song.number));
+            data[i].time = date.toISOString()
+            
+        }else{
+            data[i].time = new Date(date_last.getTime() - delta2*(song.number-50));
+        }
+    }
+}
+
 
 function drawTable(){
+    updateTime()
     var table = document.getElementById("tablesongslarge")
     var table2 = document.getElementById("tablesongsshort")
     table.innerHTML = ""
@@ -40,6 +76,8 @@ function drawTable(){
     var currentartist = "TEST"
     var currenttitle = "TEST"
     var currentcolor = 200
+    var currentsong
+    var currentsong2
 
     for(var i = 0; i < songs.length; i++){
         var date_utc = new Date(songs[i].time)
@@ -94,12 +132,23 @@ function drawTable(){
 
         shortleft.classList.add("shortleft");
         shortleft.innerHTML = '<span class="artist short" style="color: hsl(' + songs[i].color + ', 63%, 64%);">' + songs[i].artist + '</span><br><span class="title short">' + songs[i].title + '</span>'
+
+        if(now >= date){
+            currentsong = row
+            currentsong2 = row2
+        }
     }
 
     document.getElementById('currentnumber').innerHTML = "#" + currentnumber
     document.getElementById('currentartist').innerHTML = currentartist
     document.getElementById('currenttitle').innerHTML = currenttitle
     document.getElementById('centercurrent').style.backgroundColor = 'hsl(' + currentcolor + ', 63%, 64%)';
+    if(document.getElementById('showallselector').innerHTML != "show"){
+        console.log(currentsong.innerHTML)
+        colorback = currentcolor + 180;
+        currentsong.style.backgroundColor = "hsl(" + colorback + ", 63%, 64%)";
+        currentsong2.style.backgroundColor = "hsl(" + colorback + ", 63%, 64%)";
+    }
 }
 
 window.addEventListener('load', drawTable);

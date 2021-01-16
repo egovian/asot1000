@@ -3,10 +3,11 @@ import sqlite3
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import urllib.parse as urlparse
 from flask.json import jsonify
+import requests as req
 
 
 url = urlparse.urlparse(os.environ['DATABASE_URL'])
@@ -29,9 +30,30 @@ c = conn.cursor()
 
 app = Flask(__name__, static_folder='static')
 
+def update_times():
+    now = datetime.now()
+    date = None
+    res = req.get('https://nitter.net/asot/rss')
+
+    text = str(res.content)
+    item = text.split("<item>")[1].split('<title>')[1]
+    if item.startswith('#'):
+        number = item.split('#')[1].split(" ")[0]
+        print(number)
+        datetxt = item.split('<pubDate>')[1].split('</pubDate>')[0]
+        date = datetime.strptime(datetxt, "%a, %d %b %Y %H:%M:%S GMT")
+        update_time = {"number":number, "time":date.isoformat(), "update":"yes"}
+        return update_time
+    else:
+        return {"number":0, "time":datetime.now().isoformat(), "update":"no"}
+            
+
+
+
 @app.route('/')
 def index():
-    return render_template('main.html')
+    update_time = update_times()
+    return render_template('main.html', update_time=json.dumps(update_time))
 
 @app.route('/data',methods=["POST"])
 def getData():
