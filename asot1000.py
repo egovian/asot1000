@@ -956,7 +956,7 @@ import urllib.parse as urlparse
 import os
 from psycopg2.extras import RealDictCursor
 
-
+'''
 #url = urlparse.urlparse(os.environ['DATABASE_URL'])
 url = urlparse.urlparse('postgres://xirnujetwrlufe:7732b67f8c6ff3bab76af5bbbcf58fa0a3c75c823daa424650502f0bb7ee12cc@ec2-34-251-118-151.eu-west-1.compute.amazonaws.com:5432/d8tdoe234gt6p7')
 dbname = url.path[1:]
@@ -974,16 +974,9 @@ conn = psycopg2.connect(
             cursor_factory=RealDictCursor
             )
 c = conn.cursor()
-
-start = datetime(2021, 1, 16, 9, 0)
-finish = datetime(2021, 1, 21, 16, 0)
-
-delta = finish-start
-duration = delta/len(raw.split('\n'))
-
 c.execute('drop table if exists songs')
 
-c.execute('''CREATE TABLE songs
+c.execute(''''''CREATE TABLE songs
 (
     id SERIAL,
     "number" text COLLATE pg_catalog."default",
@@ -995,20 +988,21 @@ c.execute('''CREATE TABLE songs
 )
 
 TABLESPACE pg_default;
-''')
+'''''')
 
 c.execute('delete from songs')
+'''
 
 songs = []
-for song in raw.split('\n'):
-    number = song.split(' ')[0]
-    rest = song.split(str(number) + " ")[1]
-    artist = rest.split(" – ")[0]
-    title = rest.split(" – ")[1]
-    orden = 1000-int(number)
-    time = start + duration*orden
-    songs.append({'number':number, 'artist':artist, 'title':title, 'orden':orden, 'time':time})
-    c.execute('insert into songs (number, orden, artist, title, time) values (%s,%s,%s,%s,%s)', (number, orden, artist, title, time.isoformat()))
+
+# Set ASOT850
+number = "SET"
+artist = "Armin van Buuren"
+title = "Armin van Buuren live @ ASOT 850 (Jaarbeurs, Utrecht)"
+orden = 1
+time = datetime(2021, 1, 14, 21, 0)
+color = 272
+songs.append({'number':number, 'artist':artist, 'title':title, 'orden':orden, 'time':time.isoformat(), 'color':color})
 
 # Yearmixes
 start = datetime(2021, 1, 14, 23, 0)
@@ -1021,9 +1015,45 @@ for year in range(2004, 2021):
     title = "ASOT Yearmix " + str(year)
     orden = year-2004
     time = start + delta*orden
-    c.execute('insert into songs (number, orden, artist, title, time) values (%s,%s,%s,%s,%s)', (number, orden, artist, title, time.isoformat()))
+    color = 330 + orden*360/16
+    songs.append({'number':number, 'artist':artist, 'title':title, 'orden':orden, 'time':time.isoformat(), 'color':color})
+    #c.execute('insert into songs (number, orden, artist, title, time) values (%s,%s,%s,%s,%s)', (number, orden, artist, title, time.isoformat()))
 
-c.execute('insert into songs (number, orden, artist, title, time) values (%s,%s,%s,%s,%s)', ("SET", 1, "Armin van Buuren", "Armin van Buuren live @ ASOT 850 (Jaarbeurs, Utrecht)", datetime(2021, 1, 14, 21, 0).isoformat()))
-c.execute('insert into songs (number, orden, artist, title, time) values (%s,%s,%s,%s,%s)', ("ASOT", 1, "Armin van Buuren", "A State Of Trance 1000 (50 to 1 countdown)", datetime(2021, 1, 21, 16, 0).isoformat()))
 
-conn.commit()
+# 1000-50
+start = datetime(2021, 1, 16, 9, 0)
+finish = datetime(2021, 1, 21, 16, 0)
+
+delta = finish-start
+duration = delta/len(raw.split('\n'))
+
+for song in reversed(raw.split('\n')):
+    number = song.split(' ')[0]
+    rest = song.split(str(number) + " ")[1]
+    artist = rest.split(" – ")[0]
+    title = rest.split(" – ")[1]
+    orden = 1000-int(number)
+    time = start + duration*orden
+    color = 220 + orden*360/950
+    songs.append({'number':number, 'artist':artist, 'title':title, 'orden':orden, 'time':time.isoformat(), 'color':color})
+    #c.execute('insert into songs (number, orden, artist, title, time) values (%s,%s,%s,%s,%s)', (number, orden, artist, title, time.isoformat()))
+
+
+
+#c.execute('insert into songs (number, orden, artist, title, time) values (%s,%s,%s,%s,%s)', ("SET", 1, "Armin van Buuren", "Armin van Buuren live @ ASOT 850 (Jaarbeurs, Utrecht)", datetime(2021, 1, 14, 21, 0).isoformat()))
+
+# ASOT 1000
+number = "ASOT"
+artist = "Armin van Buuren"
+title = "A State Of Trance 1000 (50 to 1 countdown)"
+orden = 1
+time = datetime(2021, 1, 21, 16, 0)
+color = 49
+songs.append({'number':number, 'artist':artist, 'title':title, 'orden':orden, 'time':time.isoformat(), 'color':color})
+
+import json
+with open('data.json', 'w') as outfile:
+    json.dump(songs, outfile)
+#c.execute('insert into songs (number, orden, artist, title, time) values (%s,%s,%s,%s,%s)', ("ASOT", 1, "Armin van Buuren", "A State Of Trance 1000 (50 to 1 countdown)", datetime(2021, 1, 21, 16, 0).isoformat()))
+
+#conn.commit()

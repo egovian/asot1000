@@ -32,14 +32,29 @@ function askForData(){
 function drawTable(){
     var table = document.getElementById("tablesongslarge")
     var table2 = document.getElementById("tablesongsshort")
+    table.innerHTML = ""
+    table2.innerHTML = ""
     songs = data
+
+    var currentnumber = 69420
+    var currentartist = "TEST"
+    var currenttitle = "TEST"
+    var currentcolor = 200
+
     for(var i = 0; i < songs.length; i++){
         var date_utc = new Date(songs[i].time)
         var date = new Date(Date.UTC(date_utc.getFullYear(), date_utc.getMonth(), date_utc.getDate(),
                                     date_utc.getHours(), date_utc.getMinutes(), date_utc.getSeconds()));
         var now = new Date()
+        
         if(now >= date){
-            continue
+            currentnumber = songs[i].number
+            currentartist = songs[i].artist
+            currenttitle = songs[i].title
+            currentcolor = songs[i].color
+            if(document.getElementById('showallselector').innerHTML == "show"){
+                continue
+            }
         }
         var options = { weekday: 'short', day: '2-digit' , hour: "2-digit", minute: "2-digit", hour12:false};
         timestr = date.toLocaleString(navigator.languages, options).toUpperCase()
@@ -50,10 +65,6 @@ function drawTable(){
         var title = row.insertCell(-1);
         var time = row.insertCell(-1);
         
-
-        
-
-
         row.classList.add("song")
 
         number.classList.add("number");
@@ -83,8 +94,24 @@ function drawTable(){
 
         shortleft.classList.add("shortleft");
         shortleft.innerHTML = '<span class="artist short" style="color: hsl(' + songs[i].color + ', 63%, 64%);">' + songs[i].artist + '</span><br><span class="title short">' + songs[i].title + '</span>'
-
     }
+
+    document.getElementById('currentnumber').innerHTML = "#" + currentnumber
+    document.getElementById('currentartist').innerHTML = currentartist
+    document.getElementById('currenttitle').innerHTML = currenttitle
+    document.getElementById('centercurrent').style.backgroundColor = 'hsl(' + currentcolor + ', 63%, 64%)';
 }
 
 window.addEventListener('load', drawTable);
+
+
+function showAll(){
+    if(document.getElementById('showallselector').innerHTML == "show"){
+        document.getElementById('showallselector').innerHTML = "hide"
+        document.getElementById('showall').innerHTML = "Show next songs"
+    }else{
+        document.getElementById('showallselector').innerHTML = "show"
+        document.getElementById('showall').innerHTML = "Show all songs"
+    }
+    drawTable()
+}

@@ -16,12 +16,12 @@
 </head>
 
 <body>
-  <div class="centercurrent" style="background-color: hsl({{currentsong.color}}, 63%, 64%);">
+  <div class="centercurrent" id="centercurrent">
     <div>CURRENTLY PLAYING</div>
     <div class="currentsong">
-      <div class="number current">#{{currentsong.number}}</div>
-      <div class="artist current">{{currentsong.artist}}</div>
-      <div class="title current">{{currentsong.title}}</div>
+      <div class="number current" id="currentnumber">#</div>
+      <div class="artist current" id="currentartist"></div>
+      <div class="title current" id="currenttitle"></div>
     </div>
     <br>
     <div style="font-size: 130%;">LISTEN LIVE</div>
@@ -40,6 +40,13 @@
     <br>
     <div class="centershort">The following times are an aproximation.</div>
   </div>
+  <div class="showallcontainer">
+    <div class="showall" onclick="showAll()">
+      <div id="showall">Show all songs</div>
+      <div class="hide" id="showallselector">show</div>
+    </div>
+  </div>
+
 
   <div class="center" id="tablelarge">
     <table class="tablesongs" id="tablesongslarge">
