@@ -139,9 +139,10 @@ function drawTable(){
         }
     }
 
+    catJAM = '<img src="static/catJAM.gif"></img>'
     document.getElementById('currentnumber').innerHTML = "#" + currentnumber
     document.getElementById('currentartist').innerHTML = currentartist
-    document.getElementById('currenttitle').innerHTML = currenttitle
+    document.getElementById('currenttitle').innerHTML = catJAM + currenttitle + catJAM
     document.getElementById('centercurrent').style.backgroundColor = 'hsl(' + currentcolor + ', 63%, 64%)';
     if(document.getElementById('showallselector').innerHTML != "show"){
         console.log(currentsong.innerHTML)
