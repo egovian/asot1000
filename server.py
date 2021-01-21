@@ -54,7 +54,8 @@ def update_times():
 
 @app.route('/')
 def index():
-    update_time = update_times()
+    #update_time = update_times()
+    update_time = {"number":0, "time":datetime.now().isoformat(), "update":"no"}
     return render_template('main.html', update_time=json.dumps(update_time))
 
 @app.route('/data',methods=["POST"])
