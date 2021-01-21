@@ -17,16 +17,18 @@
 
 <body>
   <div class="centercurrent" id="centercurrent">
-    <div>CURRENTLY PLAYING</div>
+    <div>VOTED BEST TRANCE TRACK EVER</div>
     <div class="currentsong">
       <div class="number current" id="currentnumber">#</div>
       <div class="artist current" id="currentartist"></div>
       <div class="title current" id="currenttitle"></div>
     </div>
     <br>
-    <div style="font-size: 130%;">LISTEN LIVE</div>
+    <div>ASOT 1000 has ended. What a week it has been!</div>
+    <div>Listen again to the final countdown from 50 to 1:</div>
     <div class="hide" id="updatetime">{{update_time}}</div>
     <div class="current links">
+      <!--
       <a class="link" href="https://www.youtube.com/watch?v=5lMmnfVylEE">
         <div class="frame">
           <img class="imglink" src="static/yt_logo_mono_dark.png">
@@ -37,16 +39,24 @@
           <img class="imglink" src="static/Twitch-Wordmark-White.png">
         </div>
       </a>
+      -->
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/P6l5Y5BgEns" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
+    <div style="padding-top: 10px;"><img src="static/catJAM.gif"></img><img src="static/catJAM.gif"></img><img src="static/catJAM.gif"></img><img src="static/catJAM.gif"></img><img src="static/catJAM.gif"></img><img src="static/catJAM.gif"></img><img src="static/catJAM.gif"></img><img src="static/catJAM.gif"></img></div>
     <br>
+    <!--
     <div class="centershort">The following times are an aproximation.</div>
+    -->
   </div>
+
+  <!-- 
   <div class="showallcontainer">
     <div class="showall" onclick="showAll()">
       <div id="showall">Show all songs</div>
       <div class="hide" id="showallselector">show</div>
     </div>
   </div>
+  -->
 
 
   <div class="center" id="tablelarge">
@@ -62,6 +72,7 @@
     
     </table>
   </div>
+  <div class="footer"><span style="padding-right: 6px;">MADE BY </span><a style="padding-right: 6px;" href="https://twitter.com/jaime0907">@JAIME0907</a><img src="static/catJAM.gif"></img><img src="static/catJAM.gif"></img></div>
 </body>
 
 <script src="static/data.json"></script>

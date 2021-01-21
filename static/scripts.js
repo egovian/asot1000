@@ -65,21 +65,22 @@ function updateTime(){
 
 
 function drawTable(){
-    updateTime()
+    //updateTime()
     var table = document.getElementById("tablesongslarge")
     var table2 = document.getElementById("tablesongsshort")
     table.innerHTML = ""
     table2.innerHTML = ""
     songs = data
 
-    var currentnumber = 69420
-    var currentartist = "TEST"
-    var currenttitle = "TEST"
-    var currentcolor = 200
+    var currentnumber = songs[0].number
+    var currentartist = songs[0].artist
+    var currenttitle = songs[0].title
+    var currentcolor = songs[0].color
     var currentsong
     var currentsong2
 
     for(var i = 0; i < songs.length; i++){
+        /*
         var date_utc = new Date(songs[i].time)
         var date = new Date(Date.UTC(date_utc.getFullYear(), date_utc.getMonth(), date_utc.getDate(),
                                     date_utc.getHours(), date_utc.getMinutes(), date_utc.getSeconds()));
@@ -94,30 +95,29 @@ function drawTable(){
                 continue
             }
         }
+        
         var options = { weekday: 'short', day: '2-digit' , hour: "2-digit", minute: "2-digit", hour12:false};
         timestr = date.toLocaleString(navigator.languages, options).toUpperCase()
+        */
 
         var row = table.insertRow(-1);
-        var number = row.insertCell(-1);
         var artist = row.insertCell(-1);
         var title = row.insertCell(-1);
-        var time = row.insertCell(-1);
+        //var time = row.insertCell(-1);
         
         row.classList.add("song")
 
-        number.classList.add("number");
-        number.style.color = "hsl(" + songs[i].color + ", 63%, 64%)";
-        number.innerHTML = songs[i].number;
+        divartist = '<div class="number">' + songs[i].number + '</div> <div class="artist">' + songs[i].artist + '</div>'
 
-        artist.classList.add("artist");
+        artist.classList.add("artistrow");
         artist.style.color = "hsl(" + songs[i].color + ", 63%, 64%)";
-        artist.innerHTML = songs[i].artist;
+        artist.innerHTML = divartist;
 
         title.classList.add("title");
         title.innerHTML = songs[i].title;
 
-        time.classList.add("time");
-        time.innerHTML = timestr;
+        //time.classList.add("time");
+        //time.innerHTML = timestr;
 
 
 
@@ -128,28 +128,32 @@ function drawTable(){
         row2.classList.add("song")
 
         shortright.classList.add("shortright");
-        shortright.innerHTML = '<span class="number short" style="color: hsl(' + songs[i].color + ', 63%, 64%);">' + songs[i].number + '</span><br><span class="time short">' + timestr + '</span>';
+        shortright.innerHTML = '<span class="number short" style="color: hsl(' + songs[i].color + ', 63%, 64%);">' + songs[i].number + '</span>'
+        //                        + '<br><span class="time short">' + timestr + '</span>';
 
         shortleft.classList.add("shortleft");
-        shortleft.innerHTML = '<span class="artist short" style="color: hsl(' + songs[i].color + ', 63%, 64%);">' + songs[i].artist + '</span><br><span class="title short">' + songs[i].title + '</span>'
-
+        shortleft.innerHTML = '<span class="artist short" style="color: hsl(' + songs[i].color + ', 63%, 64%);">' + songs[i].artist + '</span>' + '<br><span class="title short">' + songs[i].title + '</span>'
+        /*
         if(now >= date){
             currentsong = row
             currentsong2 = row2
         }
+        */
     }
 
     catJAM = '<img src="static/catJAM.gif"></img>'
     document.getElementById('currentnumber').innerHTML = "#" + currentnumber
     document.getElementById('currentartist').innerHTML = currentartist
-    document.getElementById('currenttitle').innerHTML = catJAM + currenttitle + catJAM
+    document.getElementById('currenttitle').innerHTML = currenttitle
     document.getElementById('centercurrent').style.backgroundColor = 'hsl(' + currentcolor + ', 63%, 64%)';
+    /*
     if(document.getElementById('showallselector').innerHTML != "show"){
         console.log(currentsong.innerHTML)
         colorback = currentcolor + 180;
         currentsong.style.backgroundColor = "hsl(" + colorback + ", 63%, 64%)";
         currentsong2.style.backgroundColor = "hsl(" + colorback + ", 63%, 64%)";
     }
+    */
 }
 
 window.addEventListener('load', drawTable);
